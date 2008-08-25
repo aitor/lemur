@@ -10,6 +10,10 @@ module Lemur
     end
     records
   end
+
+  def self.patched_classes
+    ( @patch_records || {} ).keys.dup
+  end
   
   def self.check_previous_application( original_class, patch_module )
     records = patch_records( original_class )

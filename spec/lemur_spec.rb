@@ -54,6 +54,14 @@ describe Lemur do
     records[0].patch_method.should_not be_nil
   end
 
+  it "should enumerate all patched classes" do
+    patched = Lemur.patched_classes
+    patched.should_not be_nil
+    patched.should_not be_empty
+    patched.size.should eql( 1 )
+    patched.should include( BasicClass )
+  end
+
   it "should prevent duplicate application of the same patch module" do
       #Lemur.patch_class( BasicClass, PatchModule )
     lambda {
