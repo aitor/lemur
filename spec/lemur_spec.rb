@@ -48,10 +48,13 @@ describe Lemur do
     records.should_not be_empty
     records.size.should eql( 1 )
     records[0].patched_class.should be(BasicClass)
-    records[0].method_name.should eql( "some_instance_method" )
-    records[0].original_method.should_not be_nil
     records[0].patch_module.should be( PatchModule )
-    records[0].patch_method.should_not be_nil
+    records[0].patched_methods.should_not be_nil
+    records[0].patched_methods.should_not be_empty
+    records[0].patched_methods.keys.should include( "some_instance_method" )
+    records[0].patched_methods['some_instance_method'].method_name.should eql( "some_instance_method" )
+    records[0].patched_methods['some_instance_method'].original_method.should_not be_nil
+    records[0].patched_methods['some_instance_method'].patch_method.should_not be_nil
   end
 
   it "should enumerate all patched classes" do
@@ -63,7 +66,6 @@ describe Lemur do
   end
 
   it "should prevent duplicate application of the same patch module" do
-      #Lemur.patch_class( BasicClass, PatchModule )
     lambda {
       Lemur.patch_class( BasicClass, PatchModule )
     }.should raise_error( Lemur::PatchAppliedException )
